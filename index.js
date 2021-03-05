@@ -25,6 +25,9 @@ async function run() {
 
     releases.data.forEach(release => {
       core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
+      if (release.draft) {
+        continue;
+      }
     });
 
     core.setOutput('time', new Date().toTimeString());
