@@ -27,11 +27,7 @@ async function run() {
     });
 
     releases.data.forEach(release => {
-      Console.WriteLine(
-        "The latest release is tagged at {0} and is named {1}",
-        release.TagName,
-        release.Name
-      );
+      core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
     });
 
     core.setOutput('time', new Date().toTimeString());
