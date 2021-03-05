@@ -14,6 +14,6 @@ jobs:
         uses: ./
         id: try-action
         with:
-          TARGET_REPOSITORY: ${{ GITHUB_REPOSITORY }}
+          TARGET_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
       - name: Get the output time
         run: echo "The time was ${{ steps.try-action.outputs.time }}"
