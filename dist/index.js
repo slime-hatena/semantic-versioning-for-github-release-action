@@ -17,11 +17,17 @@ async function run() {
     const octokit = github.getOctokit(GITHUB_TOKEN);
 
     let repository = core.getInput('TARGET_REPOSITORY').split('/');
-    let user = repository[0];
+    let owner = repository[0];
     let repo = repository[1];
-    core.info(`User: ${user} / Repository: ${repo}`);
+    core.info(`Owner: ${owner} / Repository: ${repo}`);
 
-    var releases = octokit.Repository.Release.GetAll(user, repo);
+    let releases = await octokit.repos.listReleases({
+      owner: owner,
+      repo: repo
+    });
+
+    console.log(releases);
+
     releases.forEach(release => {
       Console.WriteLine(
         "The latest release is tagged at {0} and is named {1}",
