@@ -3,8 +3,13 @@ const github = require('@actions/github');
 // const wait = require('./wait');
 
 
-async function warn(text: string) {
+async function warn(text) {
   core.info(`\u001b[43m${text}`);
+}
+
+async function isSemanticVersion(version) {
+  let count = (version.match(/\./g) || []).length;
+  return count == 3;
 }
 
 // most @actions toolkit packages have async methods
@@ -23,10 +28,14 @@ async function run() {
       repo: repo
     });
 
+    core.info('Release list');
     releases.data.forEach(release => {
-      core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
-      if (release.draft) {
-        continue;
+      if (!release.draft) {
+        if (isSemanticVersion(release.tag_name)) {
+          core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
+        } else {
+          warn(`Wrong tags as semantic versioning. Tag: ${release.tag_name} / Name: ${release.name}`)
+        }
       }
     });
 
