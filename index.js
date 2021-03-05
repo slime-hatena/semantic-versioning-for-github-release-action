@@ -34,7 +34,7 @@ async function run() {
         if (isSemanticVersion(release.tag_name)) {
           core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
         } else {
-          warn(`Wrong tags as semantic versioning. Tag: ${release.tag_name} / Name: ${release.name}`)
+          warn(`Wrong tag as semantic versioning. Tag: ${release.tag_name} / Name: ${release.name}`)
         }
       }
     });
