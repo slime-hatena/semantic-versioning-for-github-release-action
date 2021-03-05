@@ -13,5 +13,7 @@ jobs:
       - name: My action step
         uses: ./
         id: try-action
+        with:
+          TARGET_REPOSITORY: ${{ github.repository }}
       - name: Get the output time
         run: echo "The time was ${{ steps.try-action.outputs.time }}"
