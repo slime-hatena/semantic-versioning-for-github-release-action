@@ -6,18 +6,26 @@ require('./sourcemap-register.js');module.exports =
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(186);
-const wait = __nccwpck_require__(258);
+// const github = require('@actions/github');
+// const wait = require('./wait');
 
 
 // most @actions toolkit packages have async methods
 async function run() {
   try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
+    const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
+    // const octokit = github.getOctokit(GITHUB_TOKEN);
 
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
-    core.info((new Date()).toTimeString());
+
+    core.info(`Repository: ${core.getInput('GITHUB_REPOSITORY')}`);
+
+    // var releases = client.Repository.Release.GetAll("octokit", "octokit.net");
+    // var latest = releases[0];
+    // Console.WriteLine(
+    //   "The latest release is tagged at {0} and is named {1}",
+    //   latest.TagName,
+    //   latest.Name
+    // );
 
     core.setOutput('time', new Date().toTimeString());
   } catch (error) {
@@ -420,23 +428,6 @@ function toCommandValue(input) {
 }
 exports.toCommandValue = toCommandValue;
 //# sourceMappingURL=utils.js.map
-
-/***/ }),
-
-/***/ 258:
-/***/ ((module) => {
-
-let wait = function (milliseconds) {
-  return new Promise((resolve) => {
-    if (typeof milliseconds !== 'number') {
-      throw new Error('milliseconds not a number');
-    }
-    setTimeout(() => resolve("done!"), milliseconds)
-  });
-};
-
-module.exports = wait;
-
 
 /***/ }),
 
