@@ -38,9 +38,7 @@ async function run() {
     core.info('Release list');
     releases.data.forEach(release => {
       if (!release.draft) {
-        let t = isSemanticVersion(release.tag_name);
-        console.log(t);
-        if (t) {
+        if (isSemanticVersion(release.tag_name)) {
           core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
         } else {
           warn(`Wrong tags as semantic versioning. Tag: ${release.tag_name} / Name: ${release.name}`)
