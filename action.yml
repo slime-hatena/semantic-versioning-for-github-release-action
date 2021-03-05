@@ -4,7 +4,7 @@ inputs:
   TARGET_REPOSITORY:
     description: 'TARGET_REPOSITORY'
     required: false
-    default: '${{ env.GITHUB_REPOSITORY }}'
+    default: '${{ github.repository }}'
 
 outputs:
   time: # output will be available to future steps
