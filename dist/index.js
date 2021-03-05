@@ -10,11 +10,11 @@ const github = __nccwpck_require__(438);
 // const wait = require('./wait');
 
 
-async function warn(text) {
+function warn(text) {
   core.info(`\u001b[43m${text}`);
 }
 
-async function isSemanticVersion(version) {
+function isSemanticVersion(version) {
   let count = (version.match(/\./g) || []).length;
   return (count == 2);
 }
