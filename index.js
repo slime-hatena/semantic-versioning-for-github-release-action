@@ -19,9 +19,7 @@ async function run() {
       repo: repo
     });
 
-    console.log(releases);
-
-    releases.forEach(release => {
+    releases.data.forEach(release => {
       Console.WriteLine(
         "The latest release is tagged at {0} and is named {1}",
         release.TagName,
