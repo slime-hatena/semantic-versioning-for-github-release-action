@@ -4,7 +4,7 @@ const github = require('@actions/github');
 
 
 function warn(text) {
-  core.info(`\u001b[43m${text}`);
+  core.info(`\u001b[33m${text}`);
 }
 
 function isSemanticVersion(version) {
