@@ -16,7 +16,7 @@ async function warn(text) {
 
 async function isSemanticVersion(version) {
   let count = (version.match(/\./g) || []).length;
-  return count == 3;
+  return (count == 2);
 }
 
 // most @actions toolkit packages have async methods
