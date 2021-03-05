@@ -1,6 +1,10 @@
 name: 'Wait'
 description: 'Wait a designated number of milliseconds'
 inputs:
+  GITHUB_TOKEN:
+    description: 'GITHUB_TOKEN'
+    required: false
+    default: '${{ secret.GITHUB_TOKEN }}'
   TARGET_REPOSITORY:
     description: 'TARGET_REPOSITORY'
     required: false
