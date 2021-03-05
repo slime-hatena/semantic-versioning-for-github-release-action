@@ -7,18 +7,7 @@ const core = require('@actions/core');
 async function run() {
   try {
     const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
-    // const octokit = github.getOctokit(GITHUB_TOKEN);
-
-
-    core.info(`Repository: ${core.getInput('GITHUB_REPOSITORY')}`);
-
-    // var releases = client.Repository.Release.GetAll("octokit", "octokit.net");
-    // var latest = releases[0];
-    // Console.WriteLine(
-    //   "The latest release is tagged at {0} and is named {1}",
-    //   latest.TagName,
-    //   latest.Name
-    // );
+    core.info(`Repository: ${core.getInput('TARGET_REPOSITORY')}`);
 
     core.setOutput('time', new Date().toTimeString());
   } catch (error) {

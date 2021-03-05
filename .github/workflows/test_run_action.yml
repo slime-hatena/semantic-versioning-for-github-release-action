@@ -1,19 +1,19 @@
-name: 'Test run action'
+name: 'Try action'
 on:
   push:
     branches:
       - develop
 
 jobs:
-  test_run_actions:
+  try_action:
     runs-on: ubuntu-20.04
-    name: A job to say hello
+    name: Try action
     steps:
       - uses: actions/checkout@v2
       - name: My action step
         uses: ./
-        id: my-action
+        id: try-action
         with:
-          milliseconds: '5000'
+          TARGET_REPOSITORY: ${{ GITHUB_REPOSITORY }}
       - name: Get the output time
-        run: echo "The time was ${{ steps.my-action.outputs.time }}"
+        run: echo "The time was ${{ steps.try-action.outputs.time }}"
