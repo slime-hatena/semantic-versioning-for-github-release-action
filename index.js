@@ -3,6 +3,10 @@ const github = require('@actions/github');
 // const wait = require('./wait');
 
 
+async function warn(text: string) {
+  core.info(`\u001b[43m${text}`);
+}
+
 // most @actions toolkit packages have async methods
 async function run() {
   try {
