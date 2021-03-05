@@ -1,0 +1,19 @@
+name: 'Test run action'
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  test_run_actions:
+    runs-on: ubuntu-20.04
+    name: A job to say hello
+    steps:
+      - uses: actions/checkout@v2
+      - name: My action step
+        uses: ./
+        id: my-action
+        with:
+          milliseconds: '5000'
+      - name: Get the output time
+        run: echo "The time was ${{ steps.my-action.outputs.time }}"
