@@ -9,6 +9,7 @@ async function warn(text) {
 
 async function isSemanticVersion(version) {
   let count = (version.match(/\./g) || []).length;
+  console.log(count);
   return count == 3;
 }
 
