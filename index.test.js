@@ -12,6 +12,8 @@ test('check parseSemanticVersion', async () => {
   ];
 
   const toThrowData = [
+    { value: null, result: 'Argument \'version\' must be [object String], but [object Null] specified.' },
+    { value: 3.5, result: 'Argument \'version\' must be [object String], but [object Number] specified.' },
     { value: "", result: 'Wrong tag as semantic versioning. ' },
     { value: "aaaaabbbbbccccc", result: 'Wrong tag as semantic versioning. aaaaabbbbbccccc' },
     { value: "1.2", result: 'Wrong tag as semantic versioning. 1.2' },

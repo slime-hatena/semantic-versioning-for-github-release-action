@@ -1,4 +1,8 @@
 const parseSemanticVersion = function (version) {
+    if (toString.call(version) != "[object String]") {
+        throw new Error(`Argument 'version' must be [object String], but ${toString.call(version)} specified.`);
+    }
+
     if ((version.match(/\./g) || []).length != 2) {
         throw new Error(`Wrong tag as semantic versioning. ${version}`);
     }
