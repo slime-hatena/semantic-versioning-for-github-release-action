@@ -1,6 +1,24 @@
+const Output = require('./module/Output');
 const parseSemanticVersion = require('./module/parseSemanticVersion');
 
-test('check parseSemanticVersion', async () => {
+test('check module/Output', async () => {
+  const toEqualData = [
+    { value: Output.info('info message'), result: undefined },
+    { value: Output.info('info message', true), result: "info message" },
+    { value: Output.success('success message'), result: undefined },
+    { value: Output.success('success message', true), result: "\u001b[32msuccess message" },
+    { value: Output.warn('warn message'), result: undefined },
+    { value: Output.warn('warn message', true), result: "\u001b[33mwarn message" },
+    { value: Output.error('error message'), result: undefined },
+    { value: Output.error('error message', true), result: "\u001b[31merror message" },
+  ];
+
+  toEqualData.forEach(element => {
+    expect(element.value).toEqual(element.result);
+  });
+});
+
+test('check module/parseSemanticVersion', async () => {
   const toEqualData = [
     { value: "1.0.0", result: { major: 1, minor: 0, patch: 0, prerelease: "", meta: "" } },
     { value: "2.4.6", result: { major: 2, minor: 4, patch: 6, prerelease: "", meta: "" } },

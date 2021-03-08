@@ -7,13 +7,9 @@ require('./sourcemap-register.js');module.exports =
 
 const core = __nccwpck_require__(186);
 const github = __nccwpck_require__(438);
+const Output = __nccwpck_require__(240);
 const parseSemanticVersion = __nccwpck_require__(100);
 
-function warn(text) {
-  core.info(`\u001b[33m${text}`);
-}
-
-// most @actions toolkit packages have async methods
 async function run() {
   try {
     const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
@@ -22,23 +18,23 @@ async function run() {
     const repository = core.getInput('TARGET_REPOSITORY').split('/');
     const owner = repository[0];
     const repo = repository[1];
-    core.info(`Owner: ${owner} / Repository: ${repo}`);
+    Output.info(`Owner: ${owner} / Repository: ${repo}`);
 
     const releases = await octokit.repos.listReleases({
       owner: owner,
       repo: repo
     });
 
-    core.info('Release list');
+    Output.info('Release list');
     releases.data.forEach(release => {
       if (!release.draft) {
         try {
           parseSemanticVersion(release.tag_name);
         } catch (error) {
-          warn(`${error} Tag: ${release.tag_name} / Name: ${release.name}`);
+          Output.warn(`${error} Tag: ${release.tag_name} / Name: ${release.name}`);
           return;
         }
-        core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
+        Output.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
       }
     });
 
@@ -49,6 +45,49 @@ async function run() {
 }
 
 run();
+
+
+/***/ }),
+
+/***/ 240:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const core = __nccwpck_require__(186);
+
+const Output = class Output {
+  static info(text, isReturn = false) {
+    if (isReturn) {
+      return text;
+    }
+    core.info(text);
+  }
+
+  static success(text, isReturn = false) {
+    const result = `\u001b[32m${text}`;
+    if (isReturn) {
+      return result;
+    }
+    core.info(result);
+  }
+
+  static warn(text, isReturn = false) {
+    const result = `\u001b[33m${text}`;
+    if (isReturn) {
+      return result;
+    }
+    core.info(result);
+  }
+
+  static error(text, isReturn = false) {
+    const result = `\u001b[31m${text}`;
+    if (isReturn) {
+      return result;
+    }
+    core.info(result);
+  }
+}
+
+module.exports = Output;
 
 
 /***/ }),
