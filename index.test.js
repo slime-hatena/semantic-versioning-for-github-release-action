@@ -1,4 +1,4 @@
-const parseSemanticVersion = require('./parseSemanticVersion');
+const parseSemanticVersion = require('./module/parseSemanticVersion');
 
 test('check parseSemanticVersion', async () => {
   const toEqualData = [

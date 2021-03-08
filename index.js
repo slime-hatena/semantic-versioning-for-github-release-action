@@ -1,7 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const parseSemanticVersion = require('./parseSemanticVersion');
-
+const parseSemanticVersion = require('./module/parseSemanticVersion');
 
 function warn(text) {
   core.info(`\u001b[33m${text}`);
