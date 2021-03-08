@@ -1,15 +1,10 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-// const wait = require('./wait');
+const parseSemanticVersion = require('./parseSemanticVersion');
 
 
 function warn(text) {
   core.info(`\u001b[33m${text}`);
-}
-
-function isSemanticVersion(version) {
-  let count = (version.match(/\./g) || []).length;
-  return (count == 2);
 }
 
 // most @actions toolkit packages have async methods
@@ -18,12 +13,12 @@ async function run() {
     const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
     const octokit = github.getOctokit(GITHUB_TOKEN);
 
-    let repository = core.getInput('TARGET_REPOSITORY').split('/');
-    let owner = repository[0];
-    let repo = repository[1];
+    const repository = core.getInput('TARGET_REPOSITORY').split('/');
+    const owner = repository[0];
+    const repo = repository[1];
     core.info(`Owner: ${owner} / Repository: ${repo}`);
 
-    let releases = await octokit.repos.listReleases({
+    const releases = await octokit.repos.listReleases({
       owner: owner,
       repo: repo
     });
@@ -31,11 +26,13 @@ async function run() {
     core.info('Release list');
     releases.data.forEach(release => {
       if (!release.draft) {
-        if (isSemanticVersion(release.tag_name)) {
-          core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
-        } else {
-          warn(`Wrong tag as semantic versioning. Tag: ${release.tag_name} / Name: ${release.name}`)
+        try {
+          parseSemanticVersion(release.tag_name);
+        } catch (error) {
+          warn(`${error} Tag: ${release.tag_name} / Name: ${release.name}`);
+          return;
         }
+        core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
       }
     });
 

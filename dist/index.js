@@ -7,16 +7,11 @@ require('./sourcemap-register.js');module.exports =
 
 const core = __nccwpck_require__(186);
 const github = __nccwpck_require__(438);
-// const wait = require('./wait');
+const parseSemanticVersion = __nccwpck_require__(602);
 
 
 function warn(text) {
   core.info(`\u001b[33m${text}`);
-}
-
-function isSemanticVersion(version) {
-  let count = (version.match(/\./g) || []).length;
-  return (count == 2);
 }
 
 // most @actions toolkit packages have async methods
@@ -25,12 +20,12 @@ async function run() {
     const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
     const octokit = github.getOctokit(GITHUB_TOKEN);
 
-    let repository = core.getInput('TARGET_REPOSITORY').split('/');
-    let owner = repository[0];
-    let repo = repository[1];
+    const repository = core.getInput('TARGET_REPOSITORY').split('/');
+    const owner = repository[0];
+    const repo = repository[1];
     core.info(`Owner: ${owner} / Repository: ${repo}`);
 
-    let releases = await octokit.repos.listReleases({
+    const releases = await octokit.repos.listReleases({
       owner: owner,
       repo: repo
     });
@@ -38,11 +33,13 @@ async function run() {
     core.info('Release list');
     releases.data.forEach(release => {
       if (!release.draft) {
-        if (isSemanticVersion(release.tag_name)) {
-          core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
-        } else {
-          warn(`Wrong tag as semantic versioning. Tag: ${release.tag_name} / Name: ${release.name}`)
+        try {
+          parseSemanticVersion(release.tag_name);
+        } catch (error) {
+          warn(`${error} Tag: ${release.tag_name} / Name: ${release.name}`);
+          return;
         }
+        core.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
       }
     });
 
@@ -5904,6 +5901,72 @@ function wrappy (fn, cb) {
     return ret
   }
 }
+
+
+/***/ }),
+
+/***/ 602:
+/***/ ((module) => {
+
+const parseSemanticVersion = function (version) {
+    if (toString.call(version) != "[object String]") {
+        throw new Error(`Argument 'version' must be [object String], but ${toString.call(version)} specified.`);
+    }
+
+    if ((version.match(/\./g) || []).length != 2) {
+        throw new Error(`Wrong tag as semantic versioning. ${version}`);
+    }
+    const versionObject = { major: 0, minor: 0, patch: 0, prerelease: "", meta: "" };
+
+    const v = version.split('.');
+    for (let i = 0; i <= 2; ++i) {
+        let element = v[i];
+
+        if (i == 2) {
+            let hasPrerelease = (element.indexOf('-') != -1);
+            let hasMeta = (element.indexOf('+') != -1);
+
+            if (hasPrerelease && hasMeta) {
+                hasPrerelease = !element.match(/\+.*-/);
+            }
+
+            if (hasPrerelease && hasMeta) {
+                const m = element.split('+');
+                element = m[0];
+                versionObject.meta = m[1];
+
+                const p = element.split('-');
+                element = p[0];
+                versionObject.prerelease = p[1];
+            } else if (hasMeta) {
+                const m = element.split('+');
+                element = m[0];
+                versionObject.meta = m[1];
+            } else if (hasPrerelease) {
+                const p = element.split('-');
+                element = p[0];
+                versionObject.prerelease = p[1];
+            }
+        }
+
+        const n = Number(element);
+        if (Number.isNaN(n)) {
+            throw new Error(`${element} is not interpreted as an integer value. ${version}`);
+        }
+
+        if (i == 0) {
+            versionObject.major = n;
+        } else if (i == 1) {
+            versionObject.minor = n;
+        } else if (i == 2) {
+            versionObject.patch = n;
+        }
+    }
+
+    return versionObject;
+}
+
+module.exports = parseSemanticVersion;
 
 
 /***/ }),
