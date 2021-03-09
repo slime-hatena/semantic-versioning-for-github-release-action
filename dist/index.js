@@ -25,11 +25,15 @@ async function run() {
       repo: repo
     });
 
+    let recentVersion = new SemanticVersion;
     Output.info('Release list');
     releases.data.forEach(release => {
       if (!release.draft) {
         try {
-          (new SemanticVersion).parse(release.tag_name);
+          const version = new SemanticVersion;
+          if (version.parse(release.tag_name).isGreater(recentVersion)) {
+            recentVersion = version;
+          }
         } catch (error) {
           Output.warn(`${error} Tag: ${release.tag_name} / Name: ${release.name}`);
           return;
@@ -37,6 +41,8 @@ async function run() {
         Output.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
       }
     });
+
+    Output.success(`RecentTag: ${recentVersion.tag}, ${recentVersion.major} / ${recentVersion.minor} / ${recentVersion.patch} / ${recentVersion.prerelease} / ${recentVersion.meta}`);
 
     core.setOutput('time', new Date().toTimeString());
   } catch (error) {
