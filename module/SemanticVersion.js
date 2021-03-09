@@ -63,6 +63,40 @@ const SemanticVersion = class SemanticVersion {
 
         return this;
     }
+
+    isGreater(semanticVersion) {
+        if (toString.call(semanticVersion) != "[object Object]") {
+            throw new Error(`Argument 'version' must be [object Object].SemanticVersion, but ${toString.call(semanticVersion)} specified.`);
+        }
+
+        try {
+            if (this.major > semanticVersion.major) {
+                return true;
+            } else if (this.major < semanticVersion.major) {
+                return false;
+            }
+
+            if (this.minor > semanticVersion.minor) {
+                return true;
+            } else if (this.minor < semanticVersion.minor) {
+                return false;
+            }
+
+            if (this.patch > semanticVersion.patch) {
+                return true;
+            } else if (this.patch < semanticVersion.patch) {
+                return false;
+            }
+
+            if ([this.prerelease, semanticVersion.prerelease].sort().indexOf(this.prerelease) == 1) {
+                return true;
+            }
+
+        } catch (error) {
+            throw new Error(`Argument 'semanticVersion' must be [object Object].SemanticVersion, but [object Object].${semanticVersion.constructor.name} specified.`);
+        }
+        return false;
+    }
 }
 
 module.exports = SemanticVersion;

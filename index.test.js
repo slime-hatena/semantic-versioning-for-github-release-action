@@ -50,3 +50,69 @@ test('check module/SemanticVersion.parse', async () => {
     expect(() => (new SemanticVersion).parse(element.value)).toThrow(element.result);
   });
 });
+
+test('check module/SemanticVersion.isGreater', async () => {
+  const toEqualData = [
+    {
+      left: (new SemanticVersion).parse("1.0.0-beta"),
+      right: (new SemanticVersion).parse("1.0.0-beta"),
+      result: false,
+    },
+    {
+      left: (new SemanticVersion).parse("1.0.0-beta"),
+      right: (new SemanticVersion).parse("2.0.0-beta"),
+      result: false,
+    },
+    {
+      left: (new SemanticVersion).parse("1.0.0-beta"),
+      right: (new SemanticVersion).parse("1.1.0-beta"),
+      result: false,
+    },
+    {
+      left: (new SemanticVersion).parse("1.0.0-beta"),
+      right: (new SemanticVersion).parse("1.0.1-beta"),
+      result: false,
+    },
+    {
+      left: (new SemanticVersion).parse("1.0.0-beta"),
+      right: (new SemanticVersion).parse("1.0.0-beta2"),
+      result: false,
+    },
+    {
+      left: (new SemanticVersion).parse("3.0.0-beta"),
+      right: (new SemanticVersion).parse("2.0.0-beta"),
+      result: true,
+    },
+    {
+      left: (new SemanticVersion).parse("1.2.0-beta"),
+      right: (new SemanticVersion).parse("1.1.0-beta"),
+      result: true,
+    },
+    {
+      left: (new SemanticVersion).parse("1.0.2-beta"),
+      right: (new SemanticVersion).parse("1.0.1-beta"),
+      result: true,
+    },
+    {
+      left: (new SemanticVersion).parse("1.0.0-rc"),
+      right: (new SemanticVersion).parse("1.0.0-beta2"),
+      result: true,
+    },
+  ]
+
+  const toThrowData = [
+    {
+      left: (new SemanticVersion).parse("1.2.3"),
+      right: "1.2.4",
+      result: "Argument 'version' must be [object Object].SemanticVersion, but [object String] specified.",
+    }
+  ];
+
+  toEqualData.forEach(element => {
+    expect(element.left.isGreater(element.right)).toEqual(element.result);
+  });
+
+  toThrowData.forEach(element => {
+    expect(() => (element.left.isGreater(element.right))).toThrow(element.result);
+  });
+});
