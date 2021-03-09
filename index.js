@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const Output = require('./module/Output');
-const parseSemanticVersion = require('./module/parseSemanticVersion');
+const SemanticVersion = require('./module/SemanticVersion');
 
 async function run() {
   try {
@@ -22,7 +22,7 @@ async function run() {
     releases.data.forEach(release => {
       if (!release.draft) {
         try {
-          parseSemanticVersion(release.tag_name);
+          (new SemanticVersion).parse(release.tag_name);
         } catch (error) {
           Output.warn(`${error} Tag: ${release.tag_name} / Name: ${release.name}`);
           return;

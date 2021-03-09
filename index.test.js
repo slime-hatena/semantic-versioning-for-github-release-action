@@ -1,5 +1,5 @@
 const Output = require('./module/Output');
-const parseSemanticVersion = require('./module/parseSemanticVersion');
+const SemanticVersion = require('./module/SemanticVersion');
 
 test('check module/Output', async () => {
   const toEqualData = [
@@ -18,7 +18,7 @@ test('check module/Output', async () => {
   });
 });
 
-test('check module/parseSemanticVersion', async () => {
+test('check module/SemanticVersion.parse', async () => {
   const toEqualData = [
     { value: "1.0.0", result: { major: 1, minor: 0, patch: 0, prerelease: "", meta: "" } },
     { value: "2.4.6", result: { major: 2, minor: 4, patch: 6, prerelease: "", meta: "" } },
@@ -30,8 +30,8 @@ test('check module/parseSemanticVersion', async () => {
   ];
 
   const toThrowData = [
-    { value: null, result: 'Argument \'version\' must be [object String], but [object Null] specified.' },
-    { value: 3.5, result: 'Argument \'version\' must be [object String], but [object Number] specified.' },
+    { value: null, result: 'Argument \'versionString\' must be [object String], but [object Null] specified.' },
+    { value: 3.5, result: 'Argument \'versionString\' must be [object String], but [object Number] specified.' },
     { value: "", result: 'Wrong tag as semantic versioning. ' },
     { value: "aaaaabbbbbccccc", result: 'Wrong tag as semantic versioning. aaaaabbbbbccccc' },
     { value: "1.2", result: 'Wrong tag as semantic versioning. 1.2' },
@@ -43,10 +43,10 @@ test('check module/parseSemanticVersion', async () => {
   ];
 
   toEqualData.forEach(element => {
-    expect(parseSemanticVersion(element.value)).toEqual(element.result);
+    expect((new SemanticVersion).parse(element.value)).toEqual(element.result);
   });
 
   toThrowData.forEach(element => {
-    expect(() => parseSemanticVersion(element.value)).toThrow(element.result);
+    expect(() => (new SemanticVersion).parse(element.value)).toThrow(element.result);
   });
 });

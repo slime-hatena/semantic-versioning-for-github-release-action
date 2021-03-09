@@ -8,7 +8,7 @@ require('./sourcemap-register.js');module.exports =
 const core = __nccwpck_require__(186);
 const github = __nccwpck_require__(438);
 const Output = __nccwpck_require__(240);
-const parseSemanticVersion = __nccwpck_require__(100);
+const SemanticVersion = __nccwpck_require__(888);
 
 async function run() {
   try {
@@ -29,7 +29,7 @@ async function run() {
     releases.data.forEach(release => {
       if (!release.draft) {
         try {
-          parseSemanticVersion(release.tag_name);
+          (new SemanticVersion).parse(release.tag_name);
         } catch (error) {
           Output.warn(`${error} Tag: ${release.tag_name} / Name: ${release.name}`);
           return;
@@ -92,68 +92,77 @@ module.exports = Output;
 
 /***/ }),
 
-/***/ 100:
+/***/ 888:
 /***/ ((module) => {
 
-const parseSemanticVersion = function (version) {
-    if (toString.call(version) != "[object String]") {
-        throw new Error(`Argument 'version' must be [object String], but ${toString.call(version)} specified.`);
+const SemanticVersion = class SemanticVersion {
+    constructor() {
+        this.major = 0;
+        this.minor = 0;
+        this.patch = 0;
+        this.prerelease = "";
+        this.meta = "";
     }
 
-    if ((version.match(/\./g) || []).length != 2) {
-        throw new Error(`Wrong tag as semantic versioning. ${version}`);
-    }
-    const versionObject = { major: 0, minor: 0, patch: 0, prerelease: "", meta: "" };
+    parse(versionString) {
+        if (toString.call(versionString) != "[object String]") {
+            throw new Error(`Argument 'versionString' must be [object String], but ${toString.call(versionString)} specified.`);
+        }
 
-    const v = version.split('.');
-    for (let i = 0; i <= 2; ++i) {
-        let element = v[i];
+        if ((versionString.match(/\./g) || []).length != 2) {
+            throw new Error(`Wrong tag as semantic versioning. ${versionString}`);
+        }
 
-        if (i == 2) {
-            let hasPrerelease = (element.indexOf('-') != -1);
-            let hasMeta = (element.indexOf('+') != -1);
+        const v = versionString.split('.');
+        for (let i = 0; i <= 2; ++i) {
+            let element = v[i];
 
-            if (hasPrerelease && hasMeta) {
-                hasPrerelease = !element.match(/\+.*-/);
+            if (i == 2) {
+                let hasPrerelease = (element.indexOf('-') != -1);
+                const hasMeta = (element.indexOf('+') != -1);
+
+                if (hasPrerelease && hasMeta) {
+                    hasPrerelease = !element.match(/\+.*-/);
+                }
+
+                if (hasPrerelease && hasMeta) {
+                    const m = element.split('+');
+                    element = m[0];
+                    this.meta = m[1];
+
+                    const p = element.split('-');
+                    element = p[0];
+                    this.prerelease = p[1];
+                } else if (hasMeta) {
+                    const m = element.split('+');
+                    element = m[0];
+                    this.meta = m[1];
+                } else if (hasPrerelease) {
+                    const p = element.split('-');
+                    element = p[0];
+                    this.prerelease = p[1];
+                }
             }
 
-            if (hasPrerelease && hasMeta) {
-                const m = element.split('+');
-                element = m[0];
-                versionObject.meta = m[1];
+            const n = Number(element);
+            if (Number.isNaN(n)) {
+                throw new Error(`${element} is not interpreted as an integer value. ${versionString}`);
+            }
 
-                const p = element.split('-');
-                element = p[0];
-                versionObject.prerelease = p[1];
-            } else if (hasMeta) {
-                const m = element.split('+');
-                element = m[0];
-                versionObject.meta = m[1];
-            } else if (hasPrerelease) {
-                const p = element.split('-');
-                element = p[0];
-                versionObject.prerelease = p[1];
+            if (i == 0) {
+                this.major = n;
+            } else if (i == 1) {
+                this.minor = n;
+            } else if (i == 2) {
+                this.patch = n;
             }
         }
 
-        const n = Number(element);
-        if (Number.isNaN(n)) {
-            throw new Error(`${element} is not interpreted as an integer value. ${version}`);
-        }
-
-        if (i == 0) {
-            versionObject.major = n;
-        } else if (i == 1) {
-            versionObject.minor = n;
-        } else if (i == 2) {
-            versionObject.patch = n;
-        }
+        return this;
     }
-
-    return versionObject;
 }
 
-module.exports = parseSemanticVersion;
+module.exports = SemanticVersion;
 
 
 /***/ }),
