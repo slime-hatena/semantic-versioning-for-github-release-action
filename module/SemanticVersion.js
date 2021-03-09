@@ -1,5 +1,6 @@
 const SemanticVersion = class SemanticVersion {
     constructor() {
+        this.tag = "";
         this.major = 0;
         this.minor = 0;
         this.patch = 0;
@@ -16,6 +17,7 @@ const SemanticVersion = class SemanticVersion {
             throw new Error(`Wrong tag as semantic versioning. ${versionString}`);
         }
 
+        this.tag = versionString;
         const v = versionString.split('.');
         for (let i = 0; i <= 2; ++i) {
             let element = v[i];

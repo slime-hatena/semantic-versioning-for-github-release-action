@@ -20,13 +20,13 @@ test('check module/Output', async () => {
 
 test('check module/SemanticVersion.parse', async () => {
   const toEqualData = [
-    { value: "1.0.0", result: { major: 1, minor: 0, patch: 0, prerelease: "", meta: "" } },
-    { value: "2.4.6", result: { major: 2, minor: 4, patch: 6, prerelease: "", meta: "" } },
-    { value: "50000.70000000.9000000000", result: { major: 50000, minor: 70000000, patch: 9000000000, prerelease: "", meta: "" } },
-    { value: "3.4.7-alpha", result: { major: 3, minor: 4, patch: 7, prerelease: "alpha", meta: "" } },
-    { value: "2.0.4+develop", result: { major: 2, minor: 0, patch: 4, prerelease: "", meta: "develop" } },
-    { value: "7.0.1-beta+main", result: { major: 7, minor: 0, patch: 1, prerelease: "beta", meta: "main" } },
-    { value: "6.0.5+version-3", result: { major: 6, minor: 0, patch: 5, prerelease: "", meta: "version-3" } },
+    { tag: "1.0.0", major: 1, minor: 0, patch: 0, prerelease: "", meta: "" },
+    { tag: "2.4.6", major: 2, minor: 4, patch: 6, prerelease: "", meta: "" },
+    { tag: "50000.70000000.9000000000", major: 50000, minor: 70000000, patch: 9000000000, prerelease: "", meta: "" },
+    { tag: "3.4.7-alpha", major: 3, minor: 4, patch: 7, prerelease: "alpha", meta: "" },
+    { tag: "2.0.4+develop", major: 2, minor: 0, patch: 4, prerelease: "", meta: "develop" },
+    { tag: "7.0.1-beta+main", major: 7, minor: 0, patch: 1, prerelease: "beta", meta: "main" },
+    { tag: "6.0.5+version-3", major: 6, minor: 0, patch: 5, prerelease: "", meta: "version-3" },
   ];
 
   const toThrowData = [
@@ -43,7 +43,7 @@ test('check module/SemanticVersion.parse', async () => {
   ];
 
   toEqualData.forEach(element => {
-    expect((new SemanticVersion).parse(element.value)).toEqual(element.result);
+    expect((new SemanticVersion).parse(element.tag)).toEqual(element);
   });
 
   toThrowData.forEach(element => {
