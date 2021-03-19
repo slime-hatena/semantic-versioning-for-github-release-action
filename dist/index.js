@@ -6,7 +6,6 @@ require('./sourcemap-register.js');module.exports =
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
-const exec = __nccwpck_require__(1514);
 const github = __nccwpck_require__(5438);
 const Output = __nccwpck_require__(1240);
 const SemanticVersion = __nccwpck_require__(2888);
@@ -54,11 +53,6 @@ async function run() {
       Output.success(`RecentTag: ${recentVersion.tag}, ${recentVersion.major} / ${recentVersion.minor} / ${recentVersion.patch} / ${recentVersion.prerelease} / ${recentVersion.meta}`);
     }
 
-    await exec.exec('mkdir', ['-p', '~/.npm-global']);
-    await exec.exec('npm', ['config', 'set', 'prefix', '\'~/.npm-global\'']);
-    await exec.exec('echo', ['\'export PATH=~/.npm-global/bin:$PATH\'', '>>', '~/.bash_profile']);
-    await exec.exec('source', ['~/.bash_profile']);
-
     const changelog = new Changelog();
     await changelog.generate(recentVersion.tag);
 
@@ -88,7 +82,9 @@ const Changelog = class Changelog {
     }
 
     async generate(from = '') {
-        await exec.exec('npm', ['install', '--global', 'lerna-changelog']);
+        await exec.exec('mkdir', ['-p', '~/.npm-global']);
+        await exec.exec('npm', ['config', 'set', 'prefix', '\'~/.npm-global\'']);
+        await exec.exec('npm', ['install', '--global', 'lerna-changelog'], { env: { PATH: '~/.npm-global/bin:$PATH' } });
 
         const options = {};
         options.listeners = {
