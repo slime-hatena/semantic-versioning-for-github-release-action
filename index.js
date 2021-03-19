@@ -2,6 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const Output = require('./module/Output');
 const SemanticVersion = require('./module/SemanticVersion');
+const Changelog = require('./module/Changelog');
 
 async function run() {
   try {
@@ -35,7 +36,21 @@ async function run() {
       }
     });
 
-    Output.success(`RecentTag: ${recentVersion.tag}, ${recentVersion.major} / ${recentVersion.minor} / ${recentVersion.patch} / ${recentVersion.prerelease} / ${recentVersion.meta}`);
+    if (recentVersion.tag == '') {
+      Output.warn('No valid tags found. A new tag will be created.');
+      recentVersion.tag = '4b825dc642cb6eb9a060e54bf8d69288fbee4904'; // empty tree.
+      recentVersion.major = 0;
+      recentVersion.minor = 0;
+      recentVersion.patch = 0;
+    } else {
+      Output.success(`RecentTag: ${recentVersion.tag}, ${recentVersion.major} / ${recentVersion.minor} / ${recentVersion.patch} / ${recentVersion.prerelease} / ${recentVersion.meta}`);
+    }
+
+    const changelog = new Changelog();
+    await changelog.generate(recentVersion.tag);
+
+    Output.success(changelog.myOutput);
+    Output.error(changelog.myError);
 
     core.setOutput('time', new Date().toTimeString());
   } catch (error) {
