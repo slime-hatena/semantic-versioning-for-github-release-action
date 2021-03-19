@@ -14,6 +14,7 @@ const Changelog = __nccwpck_require__(4992);
 async function run() {
   try {
     const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
+    process.env.GITHUB_AUTH = GITHUB_TOKEN;
     const octokit = github.getOctokit(GITHUB_TOKEN);
 
     const repository = core.getInput('TARGET_REPOSITORY').split('/');
