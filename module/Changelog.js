@@ -2,9 +2,6 @@ const changelog = require('lerna-changelog');
 
 const Changelog = class Changelog {
     constructor() {
-        this.myOutput = '';
-        this.myError = '';
-
         this.labels = {
             'Type: Breaking Change': 'Breaking Change',
             'Type: Feature': 'Feature',
