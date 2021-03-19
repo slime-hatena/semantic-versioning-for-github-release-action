@@ -49,7 +49,7 @@ async function run() {
 
     await exec.exec('mkdir', ['~/.npm-global']);
     await exec.exec('npm', ['config', 'set', 'prefix', '\'~/.npm-global\'']);
-    await exec.exec('echo', ['\' export PATH = ~/.npm-global/bin: $PATH\'', '>>', '~/.bash_profile']);
+    await exec.exec('echo', ['\'export PATH=~/.npm-global/bin:$PATH\'', '>>', '~/.bash_profile']);
     await exec.exec('source', ['~/.bash_profile']);
 
     const changelog = new Changelog();
