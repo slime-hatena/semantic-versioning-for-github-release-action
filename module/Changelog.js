@@ -7,7 +7,9 @@ const Changelog = class Changelog {
     }
 
     async generate(from = '') {
-        await exec.exec('npm', ['install', '--global', 'lerna-changelog']);
+        await exec.exec('mkdir', ['-p', '~/.npm-global']);
+        await exec.exec('npm', ['config', 'set', 'prefix', '\'~/.npm-global\'']);
+        await exec.exec('npm', ['install', '--global', 'lerna-changelog'], { env: { PATH: '~/.npm-global/bin:$PATH' } });
 
         const options = {};
         options.listeners = {

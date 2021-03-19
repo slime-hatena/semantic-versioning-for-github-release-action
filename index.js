@@ -47,11 +47,6 @@ async function run() {
       Output.success(`RecentTag: ${recentVersion.tag}, ${recentVersion.major} / ${recentVersion.minor} / ${recentVersion.patch} / ${recentVersion.prerelease} / ${recentVersion.meta}`);
     }
 
-    await exec.exec('mkdir', ['-p', '~/.npm-global']);
-    await exec.exec('npm', ['config', 'set', 'prefix', '\'~/.npm-global\'']);
-    await exec.exec('echo', ['\'export PATH=~/.npm-global/bin:$PATH\'', '>>', '~/.bash_profile']);
-    await exec.exec('source', ['~/.bash_profile']);
-
     const changelog = new Changelog();
     await changelog.generate(recentVersion.tag);
 
