@@ -34,5 +34,15 @@
     "@vercel/ncc": "^0.27.0",
     "eslint": "^7.4.0",
     "jest": "^26.6.3"
+  },
+  "changelog": {
+    "labels": {
+      "Type: Breaking Change": "Breaking Change",
+      "Type: Feature": "Feature",
+      "Type: Bug": "Bug fix",
+      "Type: Maintenance": "Maintenance",
+      "Type: Documentation": "Documentation",
+      "Type: Refactoring": "Refactoring"
+    }
   }
 }
