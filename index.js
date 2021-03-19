@@ -47,10 +47,9 @@ async function run() {
     }
 
     const changelog = new Changelog();
-    await changelog.generate(recentVersion.tag);
+    const markdown = await changelog.generate(recentVersion.tag);
 
-    Output.success(changelog.myOutput);
-    Output.error(changelog.myError);
+    Output.success(markdown);
 
     core.setOutput('time', new Date().toTimeString());
   } catch (error) {
