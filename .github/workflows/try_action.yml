@@ -17,6 +17,5 @@ jobs:
         id: try-action
         with:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-          TARGET_REPOSITORY: 'Slime-hatena/semantic-versioning-for-github-release-action'
       - name: Get the output time
         run: echo "The time was ${{ steps.try-action.outputs.time }}"
