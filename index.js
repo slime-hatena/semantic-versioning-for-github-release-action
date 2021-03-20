@@ -52,6 +52,8 @@ async function run() {
 
     Output.success(markdown);
 
+    console.log(process.env);
+
     core.setOutput('time', new Date().toTimeString());
   } catch (error) {
     core.setFailed(error.message);
