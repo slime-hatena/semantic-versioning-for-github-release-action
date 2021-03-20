@@ -55,8 +55,8 @@ async function run() {
     }
 
     const changelog = new Changelog();
-    const markdown = await changelog.generate(recentVersion.tag);
-
+    let markdown = await changelog.generate(recentVersion.tag);
+    markdown = markdown.substr(markdown.indexOf('\n', 0) + 1);
     Output.success(markdown);
 
     core.setOutput('time', new Date().toTimeString());
