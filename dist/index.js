@@ -59,8 +59,6 @@ async function run() {
 
     Output.success(markdown);
 
-    console.log(process.env);
-
     core.setOutput('time', new Date().toTimeString());
   } catch (error) {
     core.setFailed(error.message);
@@ -79,7 +77,10 @@ const changelog = __nccwpck_require__(6577);
 
 const Changelog = class Changelog {
     constructor() {
-        this.labels = { // 変数化する
+        this.myOutput = '';
+        this.myError = '';
+
+        this.labels = {
             'Type: Breaking Change': 'Breaking Change',
             'Type: Feature': 'Feature',
             'Type: Bug': 'Bug fix',
@@ -100,7 +101,7 @@ const Changelog = class Changelog {
         });
         const m = await c.createMarkdown({
             tagFrom: from,
-            tagTo: 'origin/main' // 変数化する
+            tagTo: 'origin/main'
         });
 
         return m;
