@@ -10,7 +10,7 @@ async function run() {
     process.env.GITHUB_AUTH = GITHUB_TOKEN;
     const octokit = github.getOctokit(GITHUB_TOKEN);
 
-    const repository = core.getInput('TARGET_REPOSITORY').split('/');
+    const repository = process.env.GITHUB_REPOSITORY.split('/');
     const owner = repository[0];
     const repo = repository[1];
     Output.info(`Owner: ${owner} / Repository: ${repo}`);

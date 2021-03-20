@@ -17,7 +17,7 @@ async function run() {
     process.env.GITHUB_AUTH = GITHUB_TOKEN;
     const octokit = github.getOctokit(GITHUB_TOKEN);
 
-    const repository = core.getInput('TARGET_REPOSITORY').split('/');
+    const repository = process.env.GITHUB_REPOSITORY.split('/');
     const owner = repository[0];
     const repo = repository[1];
     Output.info(`Owner: ${owner} / Repository: ${repo}`);
@@ -77,10 +77,7 @@ const changelog = __nccwpck_require__(6577);
 
 const Changelog = class Changelog {
     constructor() {
-        this.myOutput = '';
-        this.myError = '';
-
-        this.labels = {
+        this.labels = { // 変数化する
             'Type: Breaking Change': 'Breaking Change',
             'Type: Feature': 'Feature',
             'Type: Bug': 'Bug fix',
@@ -101,7 +98,7 @@ const Changelog = class Changelog {
         });
         const m = await c.createMarkdown({
             tagFrom: from,
-            tagTo: 'origin/main'
+            tagTo: 'origin/main' // 変数化する
         });
 
         return m;
