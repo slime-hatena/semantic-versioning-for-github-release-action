@@ -121,5 +121,5 @@ test('check modules/SemanticVersion.isGreater', async () => {
 
 test('check modules/Changelog', async () => {
   const labels = JSON.parse(fs.readFileSync('./.github/semantic_versioning_label.json', 'utf8'));
-  expect(new Changelog(labels)).toEqual();
+  expect(new Changelog(labels));
 });
