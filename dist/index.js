@@ -7,9 +7,9 @@ require('./sourcemap-register.js');module.exports =
 
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
-const Output = __nccwpck_require__(1240);
-const SemanticVersion = __nccwpck_require__(2888);
-const Changelog = __nccwpck_require__(4992);
+const Output = __nccwpck_require__(8231);
+const SemanticVersion = __nccwpck_require__(723);
+const Changelog = __nccwpck_require__(6104);
 
 async function run() {
   try {
@@ -70,14 +70,14 @@ run();
 
 /***/ }),
 
-/***/ 4992:
+/***/ 6104:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const changelog = __nccwpck_require__(6577);
 
 const Changelog = class Changelog {
     constructor() {
-        this.labels = { // 変数化する
+        this.labels = {
             'Type: Breaking Change': 'Breaking Change',
             'Type: Feature': 'Feature',
             'Type: Bug': 'Bug fix',
@@ -98,7 +98,7 @@ const Changelog = class Changelog {
         });
         const m = await c.createMarkdown({
             tagFrom: from,
-            tagTo: 'origin/main' // 変数化する
+            tagTo: 'origin/main'
         });
 
         return m;
@@ -110,7 +110,7 @@ module.exports = Changelog;
 
 /***/ }),
 
-/***/ 1240:
+/***/ 8231:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
@@ -153,7 +153,7 @@ module.exports = Output;
 
 /***/ }),
 
-/***/ 2888:
+/***/ 723:
 /***/ ((module) => {
 
 const SemanticVersion = class SemanticVersion {

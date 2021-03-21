@@ -1,5 +1,5 @@
-const Output = require('./module/Output');
-const SemanticVersion = require('./module/SemanticVersion');
+const Output = require('./modules/Output');
+const SemanticVersion = require('./modules/SemanticVersion');
 
 test('check module/Output', async () => {
   const toEqualData = [

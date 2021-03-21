@@ -1,8 +1,8 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const Output = require('./module/Output');
-const SemanticVersion = require('./module/SemanticVersion');
-const Changelog = require('./module/Changelog');
+const Output = require('./modules/Output');
+const SemanticVersion = require('./modules/SemanticVersion');
+const Changelog = require('./modules/Changelog');
 
 async function run() {
   try {
