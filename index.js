@@ -1,3 +1,4 @@
+const fs = require('fs');
 const core = require('@actions/core');
 const github = require('@actions/github');
 const Output = require('./modules/Output');
@@ -47,7 +48,9 @@ async function run() {
       Output.success(`RecentTag: ${recentVersion.tag}, ${recentVersion.major} / ${recentVersion.minor} / ${recentVersion.patch} / ${recentVersion.prerelease} / ${recentVersion.meta}`);
     }
 
-    const changelog = new Changelog();
+    const LABEL_SETTING_FILE_PATH = core.getInput('LABEL_SETTING_FILE_PATH');
+    const labels = JSON.parse(fs.readFileSync(LABEL_SETTING_FILE_PATH, 'utf8'));
+    const changelog = new Changelog(labels);
     let markdown = await changelog.generate(recentVersion.tag);
     markdown = markdown.substr(markdown.indexOf('\n', markdown.indexOf('\n', 0) + 1) + 1);
     Output.success(markdown);

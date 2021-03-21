@@ -1,15 +1,13 @@
+const Output = require('./Output');
 const changelog = require('lerna-changelog');
 
 const Changelog = class Changelog {
-    constructor() {
-        this.labels = {
-            'Type: Breaking Change': 'Breaking Change',
-            'Type: Feature': 'Feature',
-            'Type: Bug': 'Bug fix',
-            'Type: Maintenance': 'Maintenance',
-            'Type: Documentation': 'Documentation',
-            'Type: Refactoring': 'Refactoring'
-        }
+    constructor(labels = {}) {
+        this.labels = labels;
+        Output.success('Create a release note based on the following label information.');
+        this.labels.forEach((key, value) => {
+            Output.info(`Label: ${key} / Header: ${value}`);
+        });
     }
 
     async generate(from = '') {

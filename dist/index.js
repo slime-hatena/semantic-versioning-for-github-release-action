@@ -5,6 +5,7 @@ require('./sourcemap-register.js');module.exports =
 /***/ 2932:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
+const fs = __nccwpck_require__(5747);
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 const Output = __nccwpck_require__(8231);
@@ -54,7 +55,9 @@ async function run() {
       Output.success(`RecentTag: ${recentVersion.tag}, ${recentVersion.major} / ${recentVersion.minor} / ${recentVersion.patch} / ${recentVersion.prerelease} / ${recentVersion.meta}`);
     }
 
-    const changelog = new Changelog();
+    const LABEL_SETTING_FILE_PATH = core.getInput('LABEL_SETTING_FILE_PATH');
+    const labels = JSON.parse(fs.readFileSync(LABEL_SETTING_FILE_PATH, 'utf8'));
+    const changelog = new Changelog(labels);
     let markdown = await changelog.generate(recentVersion.tag);
     markdown = markdown.substr(markdown.indexOf('\n', markdown.indexOf('\n', 0) + 1) + 1);
     Output.success(markdown);
@@ -73,18 +76,16 @@ run();
 /***/ 6104:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
+const Output = __nccwpck_require__(8231);
 const changelog = __nccwpck_require__(6577);
 
 const Changelog = class Changelog {
-    constructor() {
-        this.labels = {
-            'Type: Breaking Change': 'Breaking Change',
-            'Type: Feature': 'Feature',
-            'Type: Bug': 'Bug fix',
-            'Type: Maintenance': 'Maintenance',
-            'Type: Documentation': 'Documentation',
-            'Type: Refactoring': 'Refactoring'
-        }
+    constructor(labels = {}) {
+        this.labels = labels;
+        Output.success('Create a release note based on the following label information.');
+        this.labels.forEach((key, value) => {
+            Output.info(`Label: ${key} / Header: ${value}`);
+        });
     }
 
     async generate(from = '') {
