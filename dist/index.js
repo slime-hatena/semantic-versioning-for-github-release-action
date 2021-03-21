@@ -56,9 +56,11 @@ async function run() {
     }
 
     const LABEL_SETTING_FILE_PATH = core.getInput('LABEL_SETTING_FILE_PATH');
+    const TAG_TO = core.getInput('TAG_TO');
+
     const labels = JSON.parse(fs.readFileSync(LABEL_SETTING_FILE_PATH, 'utf8'));
     const changelog = new Changelog(labels);
-    let markdown = await changelog.generate(recentVersion.tag);
+    let markdown = await changelog.generate(recentVersion.tag, TAG_TO);
     markdown = markdown.substr(markdown.indexOf('\n', markdown.indexOf('\n', 0) + 1) + 1);
     Output.success(markdown);
 

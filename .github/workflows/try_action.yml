@@ -18,5 +18,6 @@ jobs:
         with:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
           LABEL_SETTING_FILE_PATH: './.github/semantic_versioning_label.json'
+          TAG_TO: 'origin/develop'
       - name: Get the output time
         run: echo "The time was ${{ steps.try-action.outputs.time }}"

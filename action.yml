@@ -1,13 +1,17 @@
 name: 'Semantic versioning for GitHub release'
-description: 'Infer the next version from existing tags and create a release automatically'
+description: 'Infer the next version from existing tags and create a release automatically.'
 inputs:
   GITHUB_TOKEN:
-    description: 'Specify a token that is authorized for the repository. Usually, specify secrets.GITHUB_TOKEN'
+    description: 'Specify a token that is authorized for the repository. Usually, specify secrets.GITHUB_TOKEN.'
     required: true
   LABEL_SETTING_FILE_PATH:
-    description: 'Specify the file path to the json file for label settings'
+    description: 'Specify the file path to the json file for label settings.'
     required: false
     default: './.github/semantic_versioning_label.json'
+  TAG_TO:
+    description: 'Specify the range of release note generation using a format that git understands. For example: origin/main, 4b825dc6, etc.'
+    required: false
+    default: 'origin/main'
 outputs:
   time:
     description: 'The message to output'
