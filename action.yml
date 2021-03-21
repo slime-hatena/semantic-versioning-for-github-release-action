@@ -1,17 +1,13 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
-inputs:
-  GITHUB_TOKEN:
-    description: 'GITHUB_TOKEN'
-    required: true
-  TARGET_REPOSITORY:
-    description: 'TARGET_REPOSITORY'
-    required: false
-    default: '${{ github.repository }}'
-
-outputs:
-  time: # output will be available to future steps
-    description: 'The message to output'
+name: 'Semantic versioning for GitHub release'
+description: 'Infer the next version from existing tags and create a release automatically'
+# inputs:
+#   milliseconds:  # id of input
+#     description: 'number of milliseconds to wait'
+#     required: true
+#     default: '1000'
+# outputs:
+#   time: # output will be available to future steps
+#     description: 'The message to output'
 runs:
   using: 'node12'
   main: 'dist/index.js'
