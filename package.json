@@ -1,7 +1,7 @@
 {
-  "name": "javascript-action",
+  "name": "semantic-versioning-for-github-release-action",
   "version": "1.0.0",
-  "description": "JavaScript Action Template",
+  "description": "Infer the next version from existing tags and create a release automatically",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -11,19 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/Slime-hatena/semantic-versioning-for-github-release-action.git"
   },
   "keywords": [
     "GitHub",
     "Actions",
     "JavaScript"
   ],
-  "author": "",
+  "author": "Slime-hatena",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/Slime-hatena/semantic-versioning-for-github-release-action/issues"
   },
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/Slime-hatena/semantic-versioning-for-github-release-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.5"
   },
