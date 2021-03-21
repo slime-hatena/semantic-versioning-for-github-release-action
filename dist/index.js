@@ -87,7 +87,7 @@ const changelog = __nccwpck_require__(6577);
 const Changelog = class Changelog {
     constructor(labels = {}) {
         this.labels = labels;
-        Output.success('Create a release note based on the following label information.');
+        Output.success('Create a changelog based on the following label information.');
         Object.keys(this.labels).forEach((key) => {
             Output.info(`Label: ${key} / Header: ${this.labels[key]}`);
         });
