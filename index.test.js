@@ -1,7 +1,9 @@
+const fs = require('fs');
 const Output = require('./modules/Output');
 const SemanticVersion = require('./modules/SemanticVersion');
+const Changelog = require('./modules/Changelog');
 
-test('check module/Output', async () => {
+test('check modules/Output', async () => {
   const toEqualData = [
     { value: Output.info('info message'), result: undefined },
     { value: Output.info('info message', true), result: "info message" },
@@ -18,7 +20,7 @@ test('check module/Output', async () => {
   });
 });
 
-test('check module/SemanticVersion.parse', async () => {
+test('check modules/SemanticVersion.parse', async () => {
   const toEqualData = [
     { tag: "1.0.0", major: 1, minor: 0, patch: 0, prerelease: "", meta: "" },
     { tag: "2.4.6", major: 2, minor: 4, patch: 6, prerelease: "", meta: "" },
@@ -51,7 +53,7 @@ test('check module/SemanticVersion.parse', async () => {
   });
 });
 
-test('check module/SemanticVersion.isGreater', async () => {
+test('check modules/SemanticVersion.isGreater', async () => {
   const toEqualData = [
     {
       left: (new SemanticVersion).parse("1.0.0-beta"),
@@ -115,4 +117,9 @@ test('check module/SemanticVersion.isGreater', async () => {
   toThrowData.forEach(element => {
     expect(() => (element.left.isGreater(element.right))).toThrow(element.result);
   });
+});
+
+test('check modules/Changelog', async () => {
+  const labels = JSON.parse(fs.readFileSync('./.github/semantic_versioning_label.json', 'utf8'));
+  expect(new Changelog(labels)).toEqual();
 });
