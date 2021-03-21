@@ -15,6 +15,7 @@ async function run() {
     const owner = repository[0];
     const repo = repository[1];
     Output.info(`Owner: ${owner} / Repository: ${repo}`);
+    Output.br();
 
     const releases = await octokit.repos.listReleases({
       owner: owner,
@@ -47,6 +48,7 @@ async function run() {
     } else {
       Output.success(`RecentTag: ${recentVersion.tag}, ${recentVersion.major} / ${recentVersion.minor} / ${recentVersion.patch} / ${recentVersion.prerelease} / ${recentVersion.meta}`);
     }
+    Output.br();
 
     const LABEL_SETTING_FILE_PATH = core.getInput('LABEL_SETTING_FILE_PATH');
     const TAG_TO = core.getInput('TAG_TO');
@@ -55,7 +57,8 @@ async function run() {
     const changelog = new Changelog(labels);
     let markdown = await changelog.generate(recentVersion.tag, TAG_TO);
     markdown = markdown.substr(markdown.indexOf('\n', markdown.indexOf('\n', 0) + 1) + 1);
-    Output.success(markdown);
+    Output.success('Changelog has been generated.');
+    Output.info(markdown);
 
     core.setOutput('time', new Date().toTimeString());
   } catch (error) {

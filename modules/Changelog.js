@@ -8,6 +8,7 @@ const Changelog = class Changelog {
         Object.keys(this.labels).forEach((key) => {
             Output.info(`Label: ${key} / Header: ${this.labels[key]}`);
         });
+        Output.br();
     }
 
     async generate(from = '') {
