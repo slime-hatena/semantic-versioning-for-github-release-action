@@ -119,6 +119,13 @@ module.exports = Changelog;
 const core = __nccwpck_require__(2186);
 
 const Output = class Output {
+  static br(isReturn = false) {
+    if (isReturn) {
+      return '';
+    }
+    core.info('');
+  }
+
   static info(text, isReturn = false) {
     if (isReturn) {
       return text;

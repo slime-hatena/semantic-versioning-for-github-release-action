@@ -5,6 +5,8 @@ const Changelog = require('./modules/Changelog');
 
 test('check modules/Output', async () => {
   const toEqualData = [
+    { value: Output.br(), result: undefined },
+    { value: Output.br(true), result: "" },
     { value: Output.info('info message'), result: undefined },
     { value: Output.info('info message', true), result: "info message" },
     { value: Output.success('success message'), result: undefined },

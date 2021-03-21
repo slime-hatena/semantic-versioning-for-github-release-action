@@ -1,6 +1,13 @@
 const core = require('@actions/core');
 
 const Output = class Output {
+  static br(isReturn = false) {
+    if (isReturn) {
+      return '';
+    }
+    core.info('');
+  }
+
   static info(text, isReturn = false) {
     if (isReturn) {
       return text;
