@@ -83,8 +83,8 @@ const Changelog = class Changelog {
     constructor(labels = {}) {
         this.labels = labels;
         Output.success('Create a release note based on the following label information.');
-        this.labels.forEach((key, value) => {
-            Output.info(`Label: ${key} / Header: ${value}`);
+        Object.keys(this.labels).forEach(function (key) {
+            Output.info(`Label: ${key} / Header: ${this.labels[key]}`);
         });
     }
 
