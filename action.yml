@@ -1,13 +1,16 @@
 name: 'Semantic versioning for GitHub release'
 description: 'Infer the next version from existing tags and create a release automatically'
-# inputs:
-#   milliseconds:  # id of input
-#     description: 'number of milliseconds to wait'
-#     required: true
-#     default: '1000'
-# outputs:
-#   time: # output will be available to future steps
-#     description: 'The message to output'
+inputs:
+  GITHUB_TOKEN:
+    description: 'Specify a token that is authorized for the repository. Usually, specify secrets.GITHUB_TOKEN'
+    required: true
+  LABEL_SETTING_FILE_PATH:
+    description: 'Specify the file path to the json file for label settings'
+    required: false
+    default: './.github/semantic_versioning_label.json'
+outputs:
+  time:
+    description: 'The message to output'
 runs:
   using: 'node12'
   main: 'dist/index.js'
