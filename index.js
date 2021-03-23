@@ -32,10 +32,10 @@ async function run() {
             recentVersion = version;
           }
         } catch (error) {
-          Output.warn(`${error} Tag: ${release.tag_name} / Name: ${release.name}`);
+          Output.warn(`${error} Tag: ${release.tag_name} / Name: ${release.name} / PreRelease: ${release.prerelease}`);
           return;
         }
-        Output.info(`Tag: ${release.tag_name} / Name: ${release.name}`);
+        Output.info(`Tag: ${release.tag_name} / Name: ${release.name} / PreRelease: ${release.prerelease}`);
       }
     });
 
