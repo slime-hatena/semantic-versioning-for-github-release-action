@@ -25,6 +25,7 @@ async function run() {
     let recentVersion = new SemanticVersion;
     Output.info('Release list');
     releases.data.forEach(release => {
+      console.log(release);
       if (!release.draft) {
         try {
           const version = new SemanticVersion;
