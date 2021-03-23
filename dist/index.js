@@ -26,7 +26,7 @@ async function run() {
 
     const releases = await octokit.repos.listReleases({
       owner: owner,
-      repo: 'sandbox'
+      repo: repo
     });
 
     let recentVersion = new SemanticVersion;
