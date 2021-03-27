@@ -2,16 +2,24 @@ name: 'Semantic versioning for GitHub release'
 description: 'Infer the next version from existing tags and create a release automatically.'
 inputs:
   GITHUB_TOKEN:
-    description: 'Specify a token that is authorized for the repository. Usually, specify secrets.GITHUB_TOKEN.'
+    description: 'Specify a token that is authorized for the repository. Usually, specify secrets.GITHUB_TOKEN. This value must be specified.'
     required: true
   LABEL_SETTING_FILE_PATH:
-    description: 'Specify the file path to the json file for label settings.'
+    description: 'Specify the file path to the json file for label settings. The default value is "./.github/semantic_versioning_label.json".'
     required: false
     default: './.github/semantic_versioning_label.json'
   TAG_TO:
-    description: 'Specify the range of release note generation using a format that git understands. For example: origin/main, 4b825dc6, etc.'
+    description: 'Specify the range of release note generation using a format that git understands. For example: origin/main, 4b825dc6, etc. The default value is "origin/main".'
     required: false
     default: 'origin/main'
+  DRY_RUN:
+    description: 'No release will be created. Use it, for example, for pre-merge verification actions or testing. For safety reasons, the default value is true.'
+    required: false
+    default: 'true'
+  COMMENT_ON_PR:
+    description: 'If the execution trigger is a pull request, leave the execution result in a comment. The default value is "true".'
+    required: false
+    default: 'true'
 outputs:
   time:
     description: 'The message to output'

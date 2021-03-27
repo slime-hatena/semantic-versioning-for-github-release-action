@@ -15,6 +15,14 @@ const Changelog = __nccwpck_require__(6104);
 async function run() {
   try {
     const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
+    const LABEL_SETTING_FILE_PATH = core.getInput('LABEL_SETTING_FILE_PATH');
+    const TAG_TO = core.getInput('TAG_TO');
+    const DRY_RUN = (core.getInput('DRY_RUN').toLowerCase() === 'true');
+    const COMMENT_ON_PR = (core.getInput('COMMENT_ON_PR').toLowerCase() === 'true');
+
+    console.log(DRY_RUN);
+    console.log(COMMENT_ON_PR);
+
     process.env.GITHUB_AUTH = GITHUB_TOKEN;
     const octokit = github.getOctokit(GITHUB_TOKEN);
 
@@ -57,8 +65,6 @@ async function run() {
     }
     Output.br();
 
-    const LABEL_SETTING_FILE_PATH = core.getInput('LABEL_SETTING_FILE_PATH');
-    const TAG_TO = core.getInput('TAG_TO');
 
     const labels = JSON.parse(fs.readFileSync(LABEL_SETTING_FILE_PATH, 'utf8'));
     const changelog = new Changelog(labels);
