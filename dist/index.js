@@ -14,6 +14,8 @@ const Changelog = __nccwpck_require__(6104);
 
 async function run() {
   try {
+    console.log(process.env.GITHUB_REF);
+
     const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
     const LABEL_SETTING_FILE_PATH = core.getInput('LABEL_SETTING_FILE_PATH');
     const TAG_TO = core.getInput('TAG_TO');
