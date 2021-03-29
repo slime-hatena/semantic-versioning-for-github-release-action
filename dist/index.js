@@ -21,12 +21,18 @@ async function run() {
     const TAG_TO = core.getInput('TAG_TO');
     const DRY_RUN = (core.getInput('DRY_RUN').toLowerCase() === 'true');
     const COMMENT_ON_PR = (core.getInput('COMMENT_ON_PR').toLowerCase() === 'true');
+    process.env.GITHUB_AUTH = GITHUB_TOKEN;
+    const octokit = github.getOctokit(GITHUB_TOKEN);
 
     console.log(DRY_RUN);
     console.log(COMMENT_ON_PR);
 
-    process.env.GITHUB_AUTH = GITHUB_TOKEN;
-    const octokit = github.getOctokit(GITHUB_TOKEN);
+    let pullRequestNumber = 0;
+    if (process.env.GITHUB_REF.indexOf('refs/pull') != -1) {
+      pullRequestNumber = process.env.GITHUB_REF.split('/')[2];
+      Output.info(`PullRequest number: ${pullRequestNumber}`);
+    }
+
 
     const repository = process.env.GITHUB_REPOSITORY.split('/');
     const owner = repository[0];
