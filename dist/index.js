@@ -91,18 +91,18 @@ async function run() {
     let isUpdateMinor = false;
 
     console.log(labelSettings);
-    for (let i = 0; i < labelSettings.majorChanges.length; ++i) {
-      if (markdown.indexOf('#### ' + labelSettings.majorChanges[i]) != -1) {
+    for (const item of labelSettings.majorChanges) {
+      if (markdown.indexOf('#### ' + item) != -1) {
         isUpdateMajor = true;
-        Output.success(`Found an update containing ${labelSettings.majorChanges[i]}. Update major version.`);
+        Output.success(`Found an update containing ${item}. Update major version.`);
       }
     }
 
     if (!isUpdateMajor) {
-      for (let i = 0; i < labelSettings.minorChange.length; ++i) {
-        if (markdown.indexOf('#### ' + labelSettings.minorChange[i]) != -1) {
+      for (const item of labelSettings.minorChange) {
+        if (markdown.indexOf('#### ' + item) != -1) {
           isUpdateMinor = true;
-          Output.success(`Found an update containing ${labelSettings.minorChange[i]}. Update minor version.`);
+          Output.success(`Found an update containing ${item}. Update minor version.`);
         }
       }
     }
