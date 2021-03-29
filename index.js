@@ -13,7 +13,7 @@ async function run() {
     const LABEL_SETTING_FILE_PATH = core.getInput('LABEL_SETTING_FILE_PATH');
     const TAG_TO = core.getInput('TAG_TO');
     const DRY_RUN = (core.getInput('DRY_RUN').toLowerCase() === 'true');
-    const COMMENT_ON_PR = (core.getInput('COMMENT_ON_PR').toLowerCase() === 'true');
+    let COMMENT_ON_PR = (core.getInput('COMMENT_ON_PR').toLowerCase() === 'true');
     process.env.GITHUB_AUTH = GITHUB_TOKEN;
     const octokit = github.getOctokit(GITHUB_TOKEN);
 
@@ -26,6 +26,10 @@ async function run() {
       Output.info(`PullRequest number: ${pullRequestNumber}`);
     }
 
+    if (COMMENT_ON_PR && pullRequestNumber === 0) {
+      Output.warn('COMMENT_ON_PR is true, but could not get the pull request number. Comments will be skipped.');
+      COMMENT_ON_PR = false;
+    }
 
     const repository = process.env.GITHUB_REPOSITORY.split('/');
     const owner = repository[0];
