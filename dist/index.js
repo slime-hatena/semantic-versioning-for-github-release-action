@@ -99,7 +99,7 @@ async function run() {
     }
 
     if (!isUpdateMajor) {
-      for (const item of labelSettings.minorChange) {
+      for (const item of labelSettings.minorChanges) {
         if (markdown.indexOf('#### ' + item) != -1) {
           isUpdateMinor = true;
           Output.success(`Found an update containing ${item}. Update minor version.`);
