@@ -82,22 +82,22 @@ async function run() {
     Output.info('');
     let isUpdateMajor = false;
     let isUpdateMinor = false;
-    
+
     console.log(labelSettings);
-    labelSettings.majorChanges.forEach(item => {
-      if (markdown.indexOf('#### ' + item) != -1) {
+    for (let i = 0; i < labelSettings.majorChanges.length; ++i) {
+      if (markdown.indexOf('#### ' + labelSettings.majorChanges[i]) != -1) {
         isUpdateMajor = true;
-        Output.success(`Found an update containing ${item}. Update major version.`);
+        Output.success(`Found an update containing ${labelSettings.majorChanges[i]}. Update major version.`);
       }
-    });
+    }
 
     if (!isUpdateMajor) {
-      labelSettings.minorChange.forEach(item => {
-        if (markdown.indexOf('#### ' + item) != -1) {
+      for (let i = 0; i < labelSettings.minorChange.length; ++i) {
+        if (markdown.indexOf('#### ' + labelSettings.minorChange[i]) != -1) {
           isUpdateMinor = true;
-          Output.success(`Found an update containing ${item}. Update minor version.`);
+          Output.success(`Found an update containing ${labelSettings.minorChange[i]}. Update minor version.`);
         }
-      });
+      }
     }
 
     if (isUpdateMajor) {
