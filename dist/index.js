@@ -33,7 +33,7 @@ async function run() {
       Output.info(`PullRequest number: ${pullRequestNumber}`);
     }
 
-    if (COMMENT_ON_PR && pullRequestNumber === 0) {
+    if (COMMENT_ON_PR && pullRequestNumber == 0) {
       Output.warn('COMMENT_ON_PR is true, but could not get the pull request number. Comments will be skipped.');
       COMMENT_ON_PR = false;
     }
