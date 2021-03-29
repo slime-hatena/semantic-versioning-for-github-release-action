@@ -75,12 +75,13 @@ async function run() {
     const changelog = new Changelog(labelSettings.list);
     let markdown = await changelog.generate(recentVersion.tag, TAG_TO);
     markdown = markdown.substr(markdown.indexOf('\n', markdown.indexOf('\n', markdown.indexOf('\n', 0) + 1) + 1) + 1);
-    Output.success('Changelog has been generated.');
-    Output.info(markdown);
+    if (markdown.length == 0) {
+      Output.error('The changelog was not generated. Please check the label settings and whether the pull requests have been merged.');
+    } else {
+      Output.success('Changelog has been generated.');
+      Output.info(markdown);
+    }
     Output.br();
-
-    console.log(markdown);
-    console.log(markdown.length);
 
     Output.info('');
     let isUpdateMajor = false;
