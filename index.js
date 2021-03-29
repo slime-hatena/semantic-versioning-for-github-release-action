@@ -82,7 +82,8 @@ async function run() {
     Output.info('');
     let isUpdateMajor = false;
     let isUpdateMinor = false;
-
+    
+    console.log(labelSettings);
     labelSettings.majorChanges.forEach(item => {
       if (markdown.indexOf('#### ' + item) != -1) {
         isUpdateMajor = true;
