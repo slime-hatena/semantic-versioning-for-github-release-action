@@ -90,7 +90,6 @@ async function run() {
     let isUpdateMajor = false;
     let isUpdateMinor = false;
 
-    console.log(labelSettings);
     for (const item of labelSettings.majorChanges) {
       if (markdown.indexOf('#### ' + item) != -1) {
         isUpdateMajor = true;
