@@ -79,6 +79,9 @@ async function run() {
     Output.info(markdown);
     Output.br();
 
+    console.log(markdown);
+    console.log(markdown.length);
+
     Output.info('');
     let isUpdateMajor = false;
     let isUpdateMinor = false;
