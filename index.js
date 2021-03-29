@@ -83,7 +83,6 @@ async function run() {
     }
     Output.br();
 
-    Output.info('');
     let isUpdateMajor = false;
     let isUpdateMinor = false;
 
