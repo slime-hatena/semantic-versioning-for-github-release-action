@@ -78,12 +78,47 @@ async function run() {
     Output.br();
 
 
-    const labels = JSON.parse(fs.readFileSync(LABEL_SETTING_FILE_PATH, 'utf8'));
-    const changelog = new Changelog(labels);
+    const labelSettings = JSON.parse(fs.readFileSync(LABEL_SETTING_FILE_PATH, 'utf8'));
+    const changelog = new Changelog(labelSettings.list);
     let markdown = await changelog.generate(recentVersion.tag, TAG_TO);
     markdown = markdown.substr(markdown.indexOf('\n', markdown.indexOf('\n', markdown.indexOf('\n', 0) + 1) + 1) + 1);
     Output.success('Changelog has been generated.');
     Output.info(markdown);
+    Output.br();
+
+    Output.info('');
+    let isUpdateMajor = false;
+    let isUpdateMinor = false;
+
+    labelSettings.majorChanges.forEach(item => {
+      if (markdown.indexOf('#### ' + item) != -1) {
+        isUpdateMajor = true;
+        Output.success(`Found an update containing ${item}. Update major version.`);
+      }
+    });
+
+    if (!isUpdateMajor) {
+      labelSettings.minorChange.forEach(item => {
+        if (markdown.indexOf('#### ' + item) != -1) {
+          isUpdateMinor = true;
+          Output.success(`Found an update containing ${item}. Update minor version.`);
+        }
+      });
+    }
+
+    if (isUpdateMajor) {
+      ++recentVersion.major;
+      recentVersion.minor = 0;
+      recentVersion.patch = 0;
+    } else if (isUpdateMinor) {
+      ++recentVersion.minor;
+      recentVersion.patch = 0;
+    } else {
+      ++recentVersion.patch;
+    }
+    recentVersion.updateTag();
+
+    Output.success(`Next version: ${recentVersion.tag}`);
 
     core.setOutput('time', new Date().toTimeString());
   } catch (error) {
@@ -196,6 +231,18 @@ const SemanticVersion = class SemanticVersion {
         this.patch = 0;
         this.prerelease = "";
         this.meta = "";
+    }
+
+    updateTag() {
+        if (this.prerelease != "" && this.meta != "") {
+            this.tag = `${this.major}.${this.minor}.${this.patch}-${this.prerelease}+${this.meta}`;
+        } else if (this.prerelease != "" && this.meta == "") {
+            this.tag = `${this.major}.${this.minor}.${this.patch}-${this.prerelease}`;
+        } else if (this.prerelease == "" && this.meta != "") {
+            this.tag = `${this.major}.${this.minor}.${this.patch}+${this.meta}`;
+        } else {
+            this.tag = `${this.major}.${this.minor}.${this.patch}`;
+        }
     }
 
     parse(versionString) {

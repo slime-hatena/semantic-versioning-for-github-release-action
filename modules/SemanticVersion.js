@@ -8,6 +8,18 @@ const SemanticVersion = class SemanticVersion {
         this.meta = "";
     }
 
+    updateTag() {
+        if (this.prerelease != "" && this.meta != "") {
+            this.tag = `${this.major}.${this.minor}.${this.patch}-${this.prerelease}+${this.meta}`;
+        } else if (this.prerelease != "" && this.meta == "") {
+            this.tag = `${this.major}.${this.minor}.${this.patch}-${this.prerelease}`;
+        } else if (this.prerelease == "" && this.meta != "") {
+            this.tag = `${this.major}.${this.minor}.${this.patch}+${this.meta}`;
+        } else {
+            this.tag = `${this.major}.${this.minor}.${this.patch}`;
+        }
+    }
+
     parse(versionString) {
         if (toString.call(versionString) != "[object String]") {
             throw new Error(`Argument 'versionString' must be [object String], but ${toString.call(versionString)} specified.`);
