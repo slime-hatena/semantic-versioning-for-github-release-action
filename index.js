@@ -102,6 +102,10 @@ async function run() {
       }
     }
 
+    if (!isUpdateMinor) {
+      Output.success('There were no minor changes. Update patch version.');
+    }
+
     if (isUpdateMajor) {
       ++recentVersion.major;
       recentVersion.minor = 0;
