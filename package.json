@@ -27,7 +27,7 @@
   "homepage": "https://github.com/Slime-hatena/semantic-versioning-for-github-release-action#readme",
   "dependencies": {
     "@actions/core": "^1.4.0",
-    "@actions/exec": "^1.0.4",
+    "@actions/exec": "^1.1.0",
     "@actions/github": "^4.0.0",
     "lerna-changelog": "^1.0.1"
   },
